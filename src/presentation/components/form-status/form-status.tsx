@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import Spinner from '../spinner/spinner'
+import { Spinner } from '../'
 
 import Styles from './form-status-styles.scss'
 
