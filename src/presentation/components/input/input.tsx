@@ -6,9 +6,16 @@ import Styles from './input-styles.scss'
 
 interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> { }
 
-const Input: React.FC<Props> = ({ autoComplete, ...rest }) => {
-  const { errorState } = useContext(Context)
-  const error = errorState[rest.name]
+const Input: React.FC<Props> = ({ autoComplete, name, ...rest }) => {
+  const { state, setState } = useContext(Context)
+  const error = state[`${name}Error`]
+
+  const handleChange = (event: React.FocusEvent<HTMLInputElement>): void => {
+    setState(state => ({
+      ...state,
+      [event.target.name]: event.target.value
+    }))
+  }
 
   const getStatus = (): string => {
     return 'X'
@@ -20,8 +27,8 @@ const Input: React.FC<Props> = ({ autoComplete, ...rest }) => {
 
   return (
     <div className={Styles.inputWrap}>
-      <input {...rest} autoComplete={autoComplete || 'off'} />
-      <span data-testid={`${rest.name}-status`} title={getTitle()} className={Styles.status}>{getStatus()}</span>
+      <input {...rest} data-testid={name} name={name} autoComplete={autoComplete || 'off'} onChange={handleChange} />
+      <span data-testid={`${name}-status`} title={getTitle()} className={Styles.status}>{getStatus()}</span>
     </div>
   )
 }
