@@ -6,7 +6,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> { }
 
 const Spinner: React.FC<Props> = ({ className, ...rest }) => {
   return (
-    <div {...rest} className={[Styles.spinner, className].join(' ')}>
+    <div data-testid="spinner" {...rest} className={[Styles.spinner, className].join(' ')}>
       <div /><div /><div /><div />
     </div>
   )
