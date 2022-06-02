@@ -7,7 +7,7 @@ const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login validation={{} as any} />} />
+        <Route path="/login" element={<Login validation={{} as any} authentication={{} as any} />} />
       </Routes>
     </BrowserRouter>
   )
