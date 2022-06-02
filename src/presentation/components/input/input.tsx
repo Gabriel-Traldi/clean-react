@@ -18,11 +18,11 @@ const Input: React.FC<Props> = ({ autoComplete, name, ...rest }) => {
   }
 
   const getStatus = (): string => {
-    return 'X'
+    return error ? '🔴' : '🟢'
   }
 
   const getTitle = (): string => {
-    return error
+    return error || 'Tudo certo!'
   }
 
   return (
