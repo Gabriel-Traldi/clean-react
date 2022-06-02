@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { Footer, Input, FormStatus, LoginHeader } from '@/presentation/components'
 
@@ -16,6 +16,8 @@ interface Props {
 }
 
 const Login: React.FC<Props> = ({ validation, authentication }) => {
+  const navigate = useNavigate()
+
   const [state, setState] = useState({
     isLoading: false,
     email: '',
@@ -39,6 +41,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
       })
 
       localStorage.setItem('accessToken', account.accessToken)
+      navigate('/', { replace: true })
     } catch (error) {
       setState(state => ({
         ...state,
