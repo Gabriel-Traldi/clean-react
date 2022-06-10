@@ -8,6 +8,11 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
   transform: {
     '.+\\.(ts|tsx)$': 'ts-jest'
   },
