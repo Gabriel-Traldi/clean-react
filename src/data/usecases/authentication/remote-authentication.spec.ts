@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpPostClientSpy } from '@/data/test'

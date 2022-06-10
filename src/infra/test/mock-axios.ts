@@ -1,5 +1,5 @@
 import axios from 'axios'
-import faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
 type HttpResponse = {
   data: object

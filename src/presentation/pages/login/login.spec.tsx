@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
 import { cleanup, fireEvent, render, RenderResult, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
-import faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
 import 'jest-localstorage-mock'
 
