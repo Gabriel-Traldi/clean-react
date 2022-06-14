@@ -68,7 +68,7 @@ const testStatusForField = (sut: RenderResult, fieldName: 'email' | 'password', 
 
 const testErrorWrapChildCount = (sut: RenderResult, count: number): void => {
   const errorWrap = sut.getByTestId('error-wrap')
-  expect(errorWrap.childElementCount).toBe(count)
+  expect(errorWrap.children).toHaveLength(count)
 }
 
 const testElementExists = (sut: RenderResult, fieldName: string): void => {
@@ -181,7 +181,7 @@ describe('Login Component', () => {
     const { sut, saveAccessTokenMock } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
-    await simulateValidSubmit(sut)
+    await waitFor(async () => await simulateValidSubmit(sut))
     await waitForElementToBeRemoved(sut.getByTestId('spinner'))
     testElementTest(sut, 'main-error', error.message)
     testErrorWrapChildCount(sut, 1)
