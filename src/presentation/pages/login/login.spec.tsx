@@ -2,7 +2,7 @@ import React from 'react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
-import { cleanup, fireEvent, render, RenderResult, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
+import { cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
 import { faker } from '@faker-js/faker'
 
 import { ValidationStub, AuthenticationSpy, SaveAccessTokenMock, Helper } from '@/presentation/test'
@@ -10,6 +10,7 @@ import { ValidationStub, AuthenticationSpy, SaveAccessTokenMock, Helper } from '
 import { Login } from '@/presentation/pages'
 
 import { InvalidCredentialsError } from '@/domain/errors'
+import { act } from 'react-dom/test-utils'
 
 type SutTypes = {
   sut: RenderResult
@@ -48,12 +49,6 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.ema
   Helper.populateField(sut, 'password', password)
   const form = sut.getByTestId('form')
   fireEvent.submit(form)
-  await waitFor(() => form)
-}
-
-const testElementTest = (sut: RenderResult, fieldName: string, text: string): void => {
-  const el = sut.getByTestId(fieldName)
-  expect(el.textContent).toBe(text)
 }
 
 describe('Login Component', () => {
@@ -132,10 +127,9 @@ describe('Login Component', () => {
   test('Should present error if Authentication fails', async () => {
     const { sut, authenticationSpy } = makeSut()
     const error = new InvalidCredentialsError()
-    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
-    await simulateValidSubmit(sut)
-    await waitForElementToBeRemoved(sut.getByTestId('spinner'))
-    testElementTest(sut, 'main-error', error.message)
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+    await act(async () => await simulateValidSubmit(sut))
+    Helper.testElementTest(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
 
@@ -151,13 +145,12 @@ describe('Login Component', () => {
     const { sut, saveAccessTokenMock } = makeSut()
     const error = new InvalidCredentialsError()
     jest.spyOn(saveAccessTokenMock, 'save').mockReturnValueOnce(Promise.reject(error))
-    await waitFor(async () => await simulateValidSubmit(sut))
-    await waitForElementToBeRemoved(sut.getByTestId('spinner'))
-    testElementTest(sut, 'main-error', error.message)
+    await act(async () => await simulateValidSubmit(sut))
+    Helper.testElementTest(sut, 'main-error', error.message)
     Helper.testChildCount(sut, 'error-wrap', 1)
   })
 
-  test('Should go to signup page', async () => {
+  test('Should go to signup page', () => {
     const { sut } = makeSut()
     const register = sut.getByText(/criar conta/i)
     fireEvent.click(register)
