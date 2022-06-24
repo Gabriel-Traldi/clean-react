@@ -3,3 +3,6 @@ node_modules
 coverage
 public
 *.scss
+*.config.js
+*.config.ts
+*.json
