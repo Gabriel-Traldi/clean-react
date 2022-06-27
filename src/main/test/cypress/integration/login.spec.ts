@@ -100,8 +100,7 @@ describe('Login', () => {
       delay: 2000
     })
     cy.getByTestId('email').focus().type(faker.internet.email())
-    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
-    cy.getByTestId('submit').click()
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5)).type('{enter}')
     cy.getByTestId('error-wrap')
       .getByTestId('spinner').should('exist')
       .getByTestId('main-error').should('not.exist')
@@ -145,7 +144,7 @@ describe('Login', () => {
     }).as('request')
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
-    cy.getByTestId('submit').dblclick({ timeout: 1000 })
+    cy.getByTestId('submit').click().click()
     cy.get('@request.all').should('have.length', 1)
   })
 })
