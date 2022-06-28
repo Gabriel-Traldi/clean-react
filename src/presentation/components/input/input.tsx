@@ -19,7 +19,11 @@ const Input: React.FC<Props> = ({ autoComplete, name, placeholder, ...rest }) =>
   }
 
   return (
-    <div className={Styles.inputWrap}>
+    <div
+      data-testid={`${name}-wrap`}
+      className={Styles.inputWrap}
+      data-status={error ? 'invalid' : 'valid'}
+    >
       <input
         {...rest}
         placeholder=" "
@@ -28,17 +32,15 @@ const Input: React.FC<Props> = ({ autoComplete, name, placeholder, ...rest }) =>
         autoComplete={autoComplete || 'off'}
         onChange={handleChange}
         ref={inputRef}
+        title={error}
       />
-      <label onClick={() => inputRef.current.focus()}>
-        {placeholder}
-        </label>
-      <span
-        data-testid={`${name}-status`}
-        title={error || 'Tudo certo!'}
-        className={Styles.status}
+      <label
+        data-testid={`${name}-label`}
+        onClick={() => inputRef.current.focus()}
+        title={error}
       >
-         {error ? '🔴' : '🟢'}
-      </span>
+        {placeholder}
+      </label>
     </div>
   )
 }
